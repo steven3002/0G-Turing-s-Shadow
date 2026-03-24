@@ -18,6 +18,10 @@ type TaskPayload struct {
 	TaskID string `json:"task_id"`
 }
 
+type SabotagePayload struct {
+	TargetRoom string `json:"target_room"`
+}
+
 type KillPayload struct {
 	TargetID string `json:"target_id"`
 }

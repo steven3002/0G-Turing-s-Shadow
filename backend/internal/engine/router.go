@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 
-	// "log"
-
 	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/network"
 )
 
@@ -44,6 +42,27 @@ func (e *Engine) RouteAction(playerID string, rawMessage []byte) error {
 
 	case "REPORT_BODY":
 		return e.HandleReportBody(playerID)
+
+	case "SEND_CHAT":
+		var p network.ChatPayload
+		if err := json.Unmarshal(req.Payload, &p); err != nil {
+			return fmt.Errorf("invalid SEND_CHAT payload")
+		}
+		return e.HandleChat(playerID, p)
+
+	case "CAST_VOTE":
+		var p network.VotePayload
+		if err := json.Unmarshal(req.Payload, &p); err != nil {
+			return fmt.Errorf("invalid CAST_VOTE payload")
+		}
+		return e.HandleVote(playerID, p)
+
+	case "SABOTAGE":
+		var p network.SabotagePayload
+		if err := json.Unmarshal(req.Payload, &p); err != nil {
+			return fmt.Errorf("invalid SABOTAGE payload schema")
+		}
+		return e.HandleSabotage(playerID, p)
 
 	default:
 		return fmt.Errorf("unknown action type: %s", req.Action)

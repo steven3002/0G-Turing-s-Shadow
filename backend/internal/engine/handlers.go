@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"time"
 
+	"log"
+
 	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/network"
 	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/state"
-	"log"
 )
 
 // HandleMove validates adjacency and applies the 1.5s migration lock.
@@ -169,5 +170,54 @@ func (e *Engine) HandleTask(playerID string, payload network.TaskPayload) error 
 	// and transition them back to IDLE, pushing the 1.2s anonymous success pulse.
 
 	log.Printf("[ENGINE] %s started task %s", playerID, payload.TaskID)
+	return nil
+}
+
+// internal/engine/handlers.go (Add to the bottom)
+
+// HandleSabotage allows an Impostor to trigger a room-wide alarm from anywhere on the map.
+func (e *Engine) HandleSabotage(playerID string, payload network.SabotagePayload) error {
+	impostor, err := e.gameState.GetPlayer(playerID)
+	if err != nil {
+		return err
+	}
+
+	impostor.Mu.RLock()
+	if impostor.Role != state.RoleImpostor {
+		impostor.Mu.RUnlock()
+		return fmt.Errorf("unauthorized: only impostors can sabotage")
+	}
+	if !impostor.IsAlive || impostor.ActionStatus != state.StatusIdle {
+		impostor.Mu.RUnlock()
+		return fmt.Errorf("action rejected: dead or not idle")
+	}
+	// We elegantly repurpose the Task timer for the 15s Sabotage Cooldown
+	if time.Now().UnixMilli() < impostor.TaskCompletesAt {
+		impostor.Mu.RUnlock()
+		return fmt.Errorf("action rejected: sabotage cooldown active")
+	}
+	impostor.Mu.RUnlock()
+
+	targetRoomName := state.RoomName(payload.TargetRoom)
+	targetRoom, err := e.gameState.GetRoom(targetRoomName)
+	if err != nil {
+		return err
+	}
+
+	// 1. Apply 15s Cooldown
+	impostor.ApplyCooldown("TASK", time.Now().UnixMilli()+15000)
+
+	// 2. Inject the Sabotage Alarm (Lasts 10 seconds)
+	targetRoom.AddEvent(state.LogEvent{
+		EventID:   fmt.Sprintf("sabotage_%d", time.Now().UnixNano()),
+		Action:    "CRITICAL_SABOTAGE_ALARM",
+		ActorID:   "SYSTEM",
+		ExpiresAt: time.Now().UnixMilli() + 10000,
+	})
+
+	// 3. Instantly broadcast the chaos to everyone currently in the target room
+	e.BroadcastRoomState(targetRoomName)
+
+	log.Printf("[ENGINE] %s triggered a sabotage in %s", playerID, payload.TargetRoom)
 	return nil
 }
