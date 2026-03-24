@@ -19,7 +19,7 @@ func main() {
 	var crewmate *websocket.Conn
 	var targetID string
 
-	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/lobby/join"}
+	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/lobby/join", RawQuery: "room=alpha_squad"}
 	for i := 0; i < 9; i++ {
 		c, _, _ := websocket.DefaultDialer.Dial(u.String(), nil)
 

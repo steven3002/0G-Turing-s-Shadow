@@ -44,7 +44,7 @@ func main() {
 // --- BOILERPLATE HELPER ---
 func spawnLobby(count int) []*websocket.Conn {
 	var conns []*websocket.Conn
-	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/lobby/join"}
+	u := url.URL{Scheme: "ws", Host: "localhost:8080", Path: "/lobby/join", RawQuery: "room=alpha_squad"}
 
 	for i := 0; i < count; i++ {
 		c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
