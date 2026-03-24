@@ -3,9 +3,12 @@ package engine
 
 import (
 	"fmt"
-	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/network"
-	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/state"
+	"log"
 	"time"
+
+	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/network"
+	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/persist"
+	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/state"
 )
 
 // TriggerMeeting pauses the game and boots up the NLP chat phase.
@@ -39,6 +42,11 @@ func (e *Engine) TriggerMeeting(callerID string, meetingType string) error {
 		PhaseEndsAtUnix: time.Now().UnixMilli() + 20000,
 	}
 	e.gameState.Mu.Unlock()
+
+	// Snapshot at meeting start (evidence collection)
+	if path, err := persist.SnapshotGameState(e.gameState, state.PhaseMeetingChat, "./game_logs"); err == nil {
+		log.Printf("Meeting state snapshot persisted to %s", path)
+	}
 
 	// 3. Broadcast PROMPT_08_MEETING_START_CONTEXT to all alive players
 	payload := map[string]interface{}{

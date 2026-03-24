@@ -19,3 +19,13 @@ type Prompt06LocalMapUpdate struct {
 	CurrentNode   string   `json:"current_node"`
 	AdjacentNodes []string `json:"adjacent_nodes"`
 }
+
+// Prompt01Welcome is pushed immediately after handshake.
+type Prompt01Welcome struct {
+	PromptID string   `json:"prompt_id"`
+	Type     string   `json:"type"`
+	PlayerID string   `json:"player_id"`
+	Room     string   `json:"room"`
+	Phase    string   `json:"phase"`
+	Players  []string `json:"players"` // All player IDs in match
+}

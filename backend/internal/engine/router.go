@@ -50,7 +50,7 @@ func (e *Engine) RouteAction(playerID string, rawMessage []byte) error {
 		}
 		return e.HandleChat(playerID, p)
 
-	case "CAST_VOTE":
+	case "VOTE":
 		var p network.VotePayload
 		if err := json.Unmarshal(req.Payload, &p); err != nil {
 			return fmt.Errorf("invalid CAST_VOTE payload")

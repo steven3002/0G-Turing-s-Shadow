@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  /* Core Palette */
+  --bg-space: #050b14;
+  --bg-panel: rgba(16, 26, 43, 0.7);
+  --border-glow: rgba(0, 255, 255, 0.3);
+  --accent-cyan: #00e5ff;
+  --accent-red: #ff3366;
+  --accent-green: #00ff88;
+  --text-main: #e0e6ed;
+  --text-muted: #8a9bb3;
+
+  /* Fonts */
+  --font-ui: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Spacing */
+  --p-sm: 0.5rem;
+  --p-md: 1rem;
+  --p-lg: 2rem;
+  --radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-space);
+  color: var(--text-main);
+  font-family: var(--font-ui);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(0, 229, 255, 0.05), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(255, 51, 102, 0.05), transparent 25%);
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Glassmorphism Panels */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  padding: var(--p-md);
+}
+
+/* Typography Classes */
+h1, h2, h3 {
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.text-cyan { color: var(--accent-cyan); }
+.text-red { color: var(--accent-red); }
+.text-green { color: var(--accent-green); }
+
+/* Buttons */
+.btn-primary {
+  background: transparent;
+  color: var(--accent-cyan);
+  border: 2px solid var(--accent-cyan);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+}
+
+.btn-primary:hover {
+  background: var(--accent-cyan);
+  color: var(--bg-space);
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--accent-red);
+  border: 2px solid var(--accent-red);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-ui);
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 0 10px rgba(255, 51, 102, 0.2);
+}
+
+.btn-danger:hover {
+  background: var(--accent-red);
+  color: #fff;
+  box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+}
+
+/* Base Layout Container */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  padding: var(--p-md);
+  gap: var(--p-md);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0% { box-shadow: 0 0 5px rgba(255,51,102, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(255,51,102, 0.6); }
+  100% { box-shadow: 0 0 5px rgba(255,51,102, 0.2); }
+}
+
+.alert-pulse {
+  animation: pulseGlow 2s infinite;
+  border-color: var(--accent-red);
+}
+
+/* Premium Animations */
+@keyframes roomFadeIn {
+  from { opacity: 0; transform: scale(0.98) translateY(10px); filter: blur(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+}
+
+@keyframes pulseBorder {
+  0% { box-shadow: 0 0 5px var(--accent-cyan); }
+  50% { box-shadow: 0 0 20px var(--accent-cyan); }
+  100% { box-shadow: 0 0 5px var(--accent-cyan); }
+}
+
+@keyframes agentPop {
+  0% { transform: scale(0); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.room-active {
+  animation: roomFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.agent-marker {
+  animation: agentPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.glass-panel-heavy {
+  background: rgba(10, 20, 30, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 255, 242, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+.room-bg {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.3;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  border-radius: var(--radius);
+}

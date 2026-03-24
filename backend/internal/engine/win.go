@@ -2,6 +2,9 @@
 package engine
 
 import (
+	"log"
+
+	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/persist"
 	"github.com/steven3002/0G-Turing-s-Shadow/backend/internal/state"
 )
 
@@ -29,6 +32,11 @@ func (e *Engine) EvaluateWinCondition() {
 		e.gameState.CurrentPhase = state.PhaseResolved
 		e.gameState.Mu.Unlock()
 		e.broadcastMeetingResult("CREWMATES WIN! The Impostor was eliminated.")
+
+		// Snapshot the final state
+		if path, err := persist.SnapshotGameState(e.gameState, state.PhaseResolved, "./game_logs"); err == nil {
+			log.Printf("Final game state persisted to %s", path)
+		}
 		return
 	}
 
@@ -38,6 +46,11 @@ func (e *Engine) EvaluateWinCondition() {
 		e.gameState.CurrentPhase = state.PhaseResolved
 		e.gameState.Mu.Unlock()
 		e.broadcastMeetingResult("IMPOSTOR WINS! The crew has been decimated.")
+
+		// Snapshot the final state
+		if path, err := persist.SnapshotGameState(e.gameState, state.PhaseResolved, "./game_logs"); err == nil {
+			log.Printf("Final game state persisted to %s", path)
+		}
 		return
 	}
 }

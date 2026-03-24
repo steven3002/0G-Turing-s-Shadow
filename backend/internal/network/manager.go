@@ -54,7 +54,23 @@ func (m *Manager) Start() {
 
 			log.Printf("New connection registered. Total active: %d", len(m.clients))
 
+			// FIX: Send PROMPT_01_WELCOME here, after the client is safely in m.clients
 			if m.engine != nil {
+				allPlayers := m.gameState.GetAllPlayersUnsafe()
+				ids := make([]string, 0, len(allPlayers))
+				for _, p := range allPlayers {
+					ids = append(ids, p.ID)
+				}
+
+				m.SendToPlayer(client.playerID, map[string]interface{}{
+					"prompt_id": "PROMPT_01_WELCOME",
+					"type":      "match_metadata",
+					"player_id": client.playerID,
+					"room":      string(m.gameState.GetPlayerRoomUnsafe(client.playerID)),
+					"phase":     string(m.gameState.CurrentPhase),
+					"players":    ids,
+				})
+
 				m.engine.CheckLobbyReadiness()
 			}
 

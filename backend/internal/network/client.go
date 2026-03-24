@@ -87,12 +87,8 @@ func (c *Client) writePump() {
 			}
 			w.Write(message)
 
-			// Add queued chat messages to the current websocket message to reduce frame overhead.
-			n := len(c.send)
-			for i := 0; i < n; i++ {
-				w.Write([]byte{'\n'})
-				w.Write(<-c.send)
-			}
+			// REMOVED: Batching of messages to prevent JSON parsing errors in the frontend.
+			// Each send should be its own frame for cleaner state tracking.
 
 			if err := w.Close(); err != nil {
 				return

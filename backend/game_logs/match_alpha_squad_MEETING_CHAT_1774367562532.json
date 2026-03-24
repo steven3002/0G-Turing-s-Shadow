@@ -1,0 +1,159 @@
+{
+  "match_id": "alpha_squad",
+  "snapshot_at_unix_ms": 1774367562532,
+  "trigger_phase": "MEETING_CHAT",
+  "players": [
+    {
+      "id": "agent_b9c5",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "NUCLEAR_REACTOR",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_9071",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "MEDBAY",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_4733",
+      "role": "IMPOSTOR",
+      "is_alive": true,
+      "current_node": "NUCLEAR_REACTOR",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_f831",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "STORAGE",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_7a03",
+      "role": "",
+      "is_alive": true,
+      "current_node": "",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_8d10",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "NAVIGATION",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_68be",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "CAFETERIA",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_fb9c",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "ELECTRICAL",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_c660",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "CAFETERIA",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_263f",
+      "role": "CREWMATE",
+      "is_alive": true,
+      "current_node": "CAFETERIA",
+      "action_status": "IDLE"
+    },
+    {
+      "id": "agent_2b2c",
+      "role": "",
+      "is_alive": true,
+      "current_node": "",
+      "action_status": "IDLE"
+    }
+  ],
+  "rooms": [
+    {
+      "name": "MEDBAY",
+      "logs": [],
+      "tasks": {},
+      "attendance": [
+        "agent_9071"
+      ]
+    },
+    {
+      "name": "CAFETERIA",
+      "logs": [
+        {
+          "EventID": "evt_1774367562529577500",
+          "Action": "ENTERED",
+          "ActorID": "agent_c660",
+          "ExpiresAt": 1774367564529
+        }
+      ],
+      "tasks": {},
+      "attendance": [
+        "agent_68be",
+        "agent_c660",
+        "agent_263f"
+      ]
+    },
+    {
+      "name": "NAVIGATION",
+      "logs": [],
+      "tasks": {},
+      "attendance": [
+        "agent_8d10"
+      ]
+    },
+    {
+      "name": "STORAGE",
+      "logs": [
+        {
+          "EventID": "evt_1774367562529577500",
+          "Action": "EXITED",
+          "ActorID": "agent_c660",
+          "ExpiresAt": 1774367564529
+        }
+      ],
+      "tasks": {},
+      "attendance": [
+        "agent_f831"
+      ]
+    },
+    {
+      "name": "ELECTRICAL",
+      "logs": [],
+      "tasks": {},
+      "attendance": [
+        "agent_fb9c"
+      ]
+    },
+    {
+      "name": "NUCLEAR_REACTOR",
+      "logs": [],
+      "tasks": {},
+      "attendance": [
+        "agent_4733",
+        "agent_b9c5"
+      ]
+    }
+  ],
+  "active_meeting": {
+    "CallerID": "agent_c660",
+    "MeetingType": "PANIC",
+    "DeadDiscovered": null,
+    "ChatTranscript": [],
+    "BallotBox": {},
+    "PhaseEndsAtUnix": 1774367582530
+  }
+}

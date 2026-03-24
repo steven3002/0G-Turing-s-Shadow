@@ -120,3 +120,15 @@ func (m *GameStateManager) GetAllPlayersUnsafe() []*PlayerState {
 
 	return players
 }
+
+func (m *GameStateManager) GetPlayerRoomUnsafe(id string) RoomName {
+	m.Mu.RLock()
+	defer m.Mu.RUnlock()
+	p, ok := m.players[id]
+	if !ok {
+		return RoomCafeteria // Default
+	}
+	p.Mu.RLock()
+	defer p.Mu.RUnlock()
+	return p.CurrentNode
+}
